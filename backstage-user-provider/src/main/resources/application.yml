@@ -1,0 +1,19 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: service-provider
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.0.108:3306/hdys?ServerTimeZone=HongKong&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

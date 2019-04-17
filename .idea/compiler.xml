@@ -7,16 +7,22 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="backstage-api" />
+        <module name="backstage-user-feign" />
         <module name="backstage-eureka" />
+        <module name="backstage-user-provider" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="backstage-user-providers" target="1.8" />
       <module name="demo1" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="backstage-eureka" options="-parameters" />
+      <module name="backstage-user-feign" options="-parameters" />
+      <module name="backstage-user-provider" options="-parameters" />
+      <module name="backstage-user-providers" options="-parameters" />
       <module name="demo1" options="-parameters" />
     </option>
   </component>
