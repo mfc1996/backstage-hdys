@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"></link>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css"></link>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"></link>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css"></link>
+
+<script src="../js/bootstrap3/js/bootstrap.js"></script>
+<script src="../js/bootstrap-bootbox/bootbox.js"></script>
+<script src="../js/bootstrap-table/bootstrap-table.js"></script>
+<script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+<script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+<body>
+<table class="table" id="proTable"></table>
+</body>
+<script>
+
+    $(function(){
+        initPro();
+    })
+
+    //查询用户信息
+    function initPro(){
+        $('#proTable').bootstrapTable({
+            url:'../queryProList',//获取数据地址
+            pagination:true, //是否展示分页
+            pageList:[3,5, 10, 20, 50],//分页组件
+            pageNumber:1,
+            pageSize:3,//默认每页条数
+            showPaginationSwitch:false,//是否显示 数据条数选择框
+            clickToSelect: true, //是否启用点击选中行
+            sidePagination:'server',//分页方式：client客户端分页，server服务端分页（*
+            striped:true,
+            queryParams:function(){
+
+                return {
+                    page: this.pageNumber,
+                    rows: this.pageSize
+                }
+            },
+            columns:[
+                {checkbox:true},
+                {field:'productId',title:'ID',align:'center'},
+                {field:'productName',title:'商品名称',align:'center'},
+                {field:'productPrice',title:'产品价格',align:'center'},
+                {field:'productDiscountId',title:'产品优惠力度',align:'center'},
+                {field:'productCollectionId',title:'产品收藏数',align:'center'},
+                {field:'typeId',title:'产品类型'},
+                {field:'productColor',title:'产品颜色'},
+                {field:'productStockId',title:'产品库存'},
+                {field:'productSize',title:'产品尺寸'},
+                {field:'productDeliveryTime',title:'产品发货时间'},
+                {field:'productCommentId',title:'产品评论id'},
+                {field:'productTransactionId',title:'产品交易情况'},
+                {field:'paymentId',title:'交易方式'},
+                {field:'productState',title:'是否上架',formatter:function(rows,index,value){
+                    return value==1?"上架":"下架"
+                    }},
+                {field:'addressId',title:'收货地址'},
+                {field:'proDealCount',title:'交易数量'},
+                {field:'qwer',title:'操作',align:'center',formatter:function(value,row,index){
+                        return '<button onclick="del('+row.userId+')" type="button" class="btn btn-primary glyphicon glyphicon-minus">删除</button> |<button onclick="upd('+row.userId+')" type="button" class="btn btn-primary glyphicon glyphicon-minus">修改</button>';
+                    }}
+            ]
+        });
+    }
+
+
+
+</script>
+</html>

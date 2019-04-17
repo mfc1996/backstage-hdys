@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.mapper.UserMapper">
+    <select id="queryCount" resultType="int">
+
+        select count(*) from h_user
+    </select>
+
+    <select id="queryList"  resultType="com.jk.model.User">
+ select * from h_user
+        limit #{start},#{rows}
+</select>
+    <select id="queryProCount" resultType="int">
+        select count(*) from h_product
+    </select>
+
+    <select id="queryProList"  resultType="com.jk.model.ProBean">
+ select * from h_product
+        limit #{start},#{rows}
+</select>
+</mapper>

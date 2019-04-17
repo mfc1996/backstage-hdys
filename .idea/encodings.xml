@@ -3,6 +3,8 @@
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8" addBOMForNewFiles="with NO BOM">
     <file url="file://$PROJECT_DIR$/backstage-api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backstage-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backstage-feign" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backstage-provider" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
