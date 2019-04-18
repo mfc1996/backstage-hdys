@@ -1,8 +1,7 @@
 package com.jk.service;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import com.jk.model.ProBean;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -16,4 +15,11 @@ public interface UserService {
     @GetMapping("queryProList")
     @ResponseBody
     HashMap<String, Object> queryProList(@RequestParam("page")Integer page,@RequestParam("rows") Integer rows);
+
+    @DeleteMapping("delPro/{ids}")
+    @ResponseBody
+    void deleteProById(@PathVariable("ids") Integer[] ids);
+
+   @PostMapping("savePro")
+    void savePro(ProBean proBean);
 }

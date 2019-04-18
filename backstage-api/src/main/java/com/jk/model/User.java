@@ -15,7 +15,7 @@ public class User implements Serializable {
     private String userLmg;
     private String userAccount;
     private String userPassword;
-    private Integer userPhone;
+    private String userPhone;
     private String userPhonePassword;
     private String suerQQAccount;
     private String userQQPassword;
@@ -94,11 +94,11 @@ public class User implements Serializable {
         this.userPassword = userPassword;
     }
 
-    public Integer getUserPhone() {
+    public String getUserPhone() {
         return userPhone;
     }
 
-    public void setUserPhone(Integer userPhone) {
+    public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
 
@@ -140,26 +140,5 @@ public class User implements Serializable {
 
     public void setUserWeChatPassword(String userWeChatPassword) {
         this.userWeChatPassword = userWeChatPassword;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", userSex=" + userSex +
-                ", userAge=" + userAge +
-                ", userBalance=" + userBalance +
-                ", userDate='" + userDate + '\'' +
-                ", userLmg='" + userLmg + '\'' +
-                ", userAccount='" + userAccount + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userPhone=" + userPhone +
-                ", userPhonePassword='" + userPhonePassword + '\'' +
-                ", suerQQAccount='" + suerQQAccount + '\'' +
-                ", userQQPassword='" + userQQPassword + '\'' +
-                ", userWeChatAccount='" + userWeChatAccount + '\'' +
-                ", userWeChatPassword='" + userWeChatPassword + '\'' +
-                '}';
     }
 }

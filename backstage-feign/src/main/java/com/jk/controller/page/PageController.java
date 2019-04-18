@@ -11,5 +11,9 @@ public class PageController {
     public String queryUserLists() {
         return "querylist";
     }
+    @RequestMapping("addPro")
+    public String addPro() {
+        return "addpro";
+    }
 
 }

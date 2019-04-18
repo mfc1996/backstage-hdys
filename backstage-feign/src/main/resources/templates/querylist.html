@@ -19,6 +19,15 @@
 <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
 <body>
+
+<div>
+    <form class="form-inline" id="toolbar">
+        <button onclick="delAll()" type="button" class="btn btn-primary glyphicon glyphicon-minus">批量删除</button>
+        <button onclick="openUser()" type="button" class="btn btn-primary glyphicon glyphicon-plus">新增</button>
+    </form>
+</div>
+
+
 <table class="table" id="proTable"></table>
 </body>
 <script>
@@ -48,30 +57,160 @@
             },
             columns:[
                 {checkbox:true},
-                {field:'productId',title:'ID',align:'center'},
+                {field:'productId',title:'商品编号',align:'center'},
                 {field:'productName',title:'商品名称',align:'center'},
                 {field:'productPrice',title:'产品价格',align:'center'},
-                {field:'productDiscountId',title:'产品优惠力度',align:'center'},
-                {field:'productCollectionId',title:'产品收藏数',align:'center'},
-                {field:'typeId',title:'产品类型'},
-                {field:'productColor',title:'产品颜色'},
                 {field:'productStockId',title:'产品库存'},
-                {field:'productSize',title:'产品尺寸'},
                 {field:'productDeliveryTime',title:'产品发货时间'},
-                {field:'productCommentId',title:'产品评论id'},
                 {field:'productTransactionId',title:'产品交易情况'},
-                {field:'paymentId',title:'交易方式'},
-                {field:'productState',title:'是否上架',formatter:function(rows,index,value){
-                    return value==1?"上架":"下架"
+                {field:'paymentId',title:'交易方式',formatter:function(rows,index,value){
+                        return value==1?"微信":"支付宝"
                     }},
-                {field:'addressId',title:'收货地址'},
                 {field:'proDealCount',title:'交易数量'},
+                {field:'productState',title:'是否上架',formatter:function(rows,index,value){
+                        return value==1?"上架":"下架"
+                    }},
                 {field:'qwer',title:'操作',align:'center',formatter:function(value,row,index){
-                        return '<button onclick="del('+row.userId+')" type="button" class="btn btn-primary glyphicon glyphicon-minus">删除</button> |<button onclick="upd('+row.userId+')" type="button" class="btn btn-primary glyphicon glyphicon-minus">上架</button>';
+                        return '<button onclick="del('+row.productId+')" type="button" class="btn btn-primary glyphicon glyphicon-minus">修改</button> |<button onclick="upd('+row.productId+')" type="button" class="btn btn-primary glyphicon glyphicon-minus">推广</button> |<button onclick="upd(\'+row.productId+\')" type="button" class="btn btn-primary glyphicon glyphicon-minus">上/下架</button>';
                     }}
             ]
         });
     }
+
+/****************************************************************删除**********************************************************************/
+    //批删
+    function delAll(){
+        var proTables = $("#proTable").bootstrapTable('getSelections');
+        if (proTables.length <= 0) {
+            bootbox.alert({
+                size: "small",
+                title: "提示",
+                message: "请选择有效数据",
+                callback: function(){}
+            })
+            return;
+        }
+
+        bootbox.confirm({
+            title:"提示",
+            message: "确认要删除选中的数据吗？",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    var ids= "";
+                    for (var i = 0; i < proTables.length; i++) {
+                        ids += ids == "" ? proTables[i].productId : ","+proTables[i].productId;
+                    }
+                    $.ajax({
+                        url:'../delPro/'+ids,
+                        type:'delete',
+                        data:{},
+                        success:function(){
+                            bootbox.alert({
+                                size: "small",
+                                title: "提示",
+                                message: "删除成功!",
+                                callback: function () {
+                                }
+                            })
+                            $("#proTable").bootstrapTable('refresh');
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+/***************************************************************新增**********************************************************************/
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    //打开新增弹框
+    function openUser(){
+        bootbox.dialog({
+            title:'新增',
+            message: createAddContent("../page/addPro"),
+            closeButton: true,
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        var productName = $("#productName").val();
+                        var productPrice = $("#productPrice").val();
+                        var productStockId = $("#productStockId").val();
+                        var productDeliveryTime = $("#productDeliveryTime").val();
+                        var paymentId = $('#paymentId input:radio:checked').val();
+                        var proDealCount = $("#proDealCount").val();
+                        var productState = $('#productState input:radio:checked').val()
+                        $.ajax({
+                            url:'../savePro',
+                            type:'post',
+                            contentType: "application/json",
+                            data:JSON.stringify({
+                                'productName': productName,
+                                'productPrice': productPrice,
+                                'productStockId': productStockId,
+                                'productDeliveryTime': productDeliveryTime,
+                                'paymentId': paymentId,
+                                'proDealCount': proDealCount,
+                                'productState': productState
+                            }),
+                            dataType:'json',
+                            success:function(data){
+                                bootbox.alert({
+                                    size: "small",
+                                    title: "提示",
+                                    message: "新增成功成功!",
+                                    callback: function () {
+                                    }
+                                })
+                               $('#proTable').bootstrapTable('refresh');
+                            }
+                        });
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+        });
+    }
+
+    function searchPro(){
+        $("#proTable").bootstrapTable('refresh');
+    }
+
+    $('.date').datetimepicker({
+        language: 'zh-CN',//显示中文
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "month",//设置只显示到月份
+        initialDate: new Date(),//初始化当前日期
+        autoclose: true,//选中自动关闭
+        todayBtn: true//显示今日按钮
+    });
 
 
 

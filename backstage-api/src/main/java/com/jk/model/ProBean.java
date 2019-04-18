@@ -18,18 +18,10 @@ public class ProBean implements Serializable {
     private     String     productDeliveryTime;
     private    Integer       productCommentId;
     private    Integer       productTransactionId;
-    private     String     paymentId;
+    private     Integer     paymentId;
     private     Integer    productState;
     private      String    addressId;
     private    Integer     proDealCount;
-
-    public Integer getProDealCount() {
-        return proDealCount;
-    }
-
-    public void setProDealCount(Integer proDealCount) {
-        this.proDealCount = proDealCount;
-    }
 
     public Integer getProductId() {
         return productId;
@@ -127,11 +119,11 @@ public class ProBean implements Serializable {
         this.productTransactionId = productTransactionId;
     }
 
-    public String getPaymentId() {
+    public Integer getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(String paymentId) {
+    public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
     }
 
@@ -149,5 +141,13 @@ public class ProBean implements Serializable {
 
     public void setAddressId(String addressId) {
         this.addressId = addressId;
+    }
+
+    public Integer getProDealCount() {
+        return proDealCount;
+    }
+
+    public void setProDealCount(Integer proDealCount) {
+        this.proDealCount = proDealCount;
     }
 }

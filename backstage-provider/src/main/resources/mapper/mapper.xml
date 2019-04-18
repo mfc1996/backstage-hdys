@@ -11,11 +11,25 @@
         limit #{start},#{rows}
 </select>
     <select id="queryProCount" resultType="int">
-        select count(*) from h_product
+        select count(1) from h_product
     </select>
 
     <select id="queryProList"  resultType="com.jk.model.ProBean">
  select * from h_product
         limit #{start},#{rows}
 </select>
+
+    <delete id="deleteProById" parameterType="int">
+        delete from h_product where productId in
+        <foreach collection="array" index="index" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <insert id="savePro" parameterType="com.jk.model.ProBean">
+        insert into h_product (productName,productPrice,productStockId,productDeliveryTime,paymentId,proDealCount,productState) values(#{productName},#{productPrice},#{productStockId},#{productDeliveryTime},#{paymentId},#{proDealCount},#{productState})
+   </insert>
+
+
+
 </mapper>
