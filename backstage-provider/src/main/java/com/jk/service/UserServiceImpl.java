@@ -15,8 +15,8 @@ import java.util.List;
 
 @Controller
 public class UserServiceImpl implements UserService {
-   @Autowired
-    private UserMapper userMapper;
+    @Autowired
+    protected UserMapper userMapper;
 
     @Override
     @ResponseBody
@@ -58,4 +58,25 @@ public class UserServiceImpl implements UserService {
     public void savePro(@RequestBody ProBean proBean) {
         userMapper.savePro(proBean);
     }
+
+
+    @Override
+    @ResponseBody
+    public void updState(@RequestParam("ids") Integer[] ids,@RequestParam("productState") Integer productState) {
+        userMapper.updState(ids,productState);
+    }
+
+    @Override
+    @ResponseBody
+    public ProBean findProById(@RequestParam("productId") Integer productId) {
+        return userMapper.findProById(productId);
+    }
+
+    @Override
+    @ResponseBody
+    public void updatePro(@RequestBody ProBean proBean) {
+        userMapper.updatePro(proBean);
+    }
+
+
 }

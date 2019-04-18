@@ -22,6 +22,24 @@ public class ProBean implements Serializable {
     private     Integer    productState;
     private      String    addressId;
     private    Integer     proDealCount;
+    private    Integer      stockNumber;
+    private String productImg;
+
+    public String getProductImg() {
+        return productImg;
+    }
+
+    public void setProductImg(String productImg) {
+        this.productImg = productImg;
+    }
+
+    public Integer getStockNumber() {
+        return stockNumber;
+    }
+
+    public void setStockNumber(Integer stockNumber) {
+        this.stockNumber = stockNumber;
+    }
 
     public Integer getProductId() {
         return productId;

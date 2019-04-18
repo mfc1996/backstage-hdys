@@ -16,4 +16,9 @@ public class PageController {
         return "addpro";
     }
 
+    @RequestMapping("updatePro")
+    public String updatePro() {
+        return "updatePro";
+    }
+
 }

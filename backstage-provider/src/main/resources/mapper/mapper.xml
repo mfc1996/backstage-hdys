@@ -15,7 +15,9 @@
     </select>
 
     <select id="queryProList"  resultType="com.jk.model.ProBean">
- select * from h_product
+ select * from h_product t1
+LEFT JOIN h_product_stock tt on tt.productId=t1.productId
+LEFT JOIN h_stock t on tt.stockId = t.stockId
         limit #{start},#{rows}
 </select>
 
@@ -26,10 +28,24 @@
         </foreach>
     </delete>
 
-    <insert id="savePro" parameterType="com.jk.model.ProBean">
+    <insert id="savePro" parameterType="com.jk.model.ProBean" >
         insert into h_product (productName,productPrice,productStockId,productDeliveryTime,paymentId,proDealCount,productState) values(#{productName},#{productPrice},#{productStockId},#{productDeliveryTime},#{paymentId},#{proDealCount},#{productState})
    </insert>
 
 
+    <update id="updState" >
+        update h_product  set productState=#{productState} where productId in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+<select id="findProById" resultType="com.jk.model.ProBean"  parameterType="int">
+    select * from h_product where productId = #{value}
+</select>
+
+    <update id="updatePro" parameterType="com.jk.model.ProBean">
+        update h_product set productName=#{productName},productPrice=#{productPrice},productStockId=#{productStockId},productDeliveryTime=#{productDeliveryTime},paymentId=#{paymentId},proDealCount=#{proDealCount},productState=#{productState} where productId=#{productId}
+    </update>
 
 </mapper>

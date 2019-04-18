@@ -4,6 +4,7 @@ import com.jk.model.ProBean;
 import com.jk.model.User;
 import org.apache.ibatis.annotations.Param;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 public interface UserMapper {
@@ -22,4 +23,11 @@ public interface UserMapper {
 //新增
     void savePro(ProBean proBean);
 
+    void updatestate(Integer id);
+
+    void updState(@PathParam("ids") Integer[] ids,@PathParam("productState") Integer productState);
+
+    ProBean findProById(Integer productId);
+
+    void updatePro( ProBean proBean);
 }

@@ -22,4 +22,15 @@ public interface UserService {
 
    @PostMapping("savePro")
     void savePro(ProBean proBean);
+
+
+    @PutMapping("updstate1")
+    void updState(@RequestParam("ids")Integer[] ids,@RequestParam("productState")Integer productState);
+
+   @GetMapping("findProById")
+   @ResponseBody
+    ProBean findProById(@RequestParam("productId") Integer productId);
+
+   @PutMapping("updatePro")
+    void updatePro( ProBean proBean);
 }

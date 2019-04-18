@@ -33,9 +33,26 @@ public class UserController {
     //产品列表新增
     @PostMapping("savePro")
     public void addProList(@RequestBody ProBean proBean){
-
             userServiceFeign.savePro(proBean);
 
-
     }
+
+    //产品批量上架
+    @PutMapping("updstate1")
+    public void updState(@RequestParam("ids") Integer[] ids ,@RequestParam("productState") Integer productState){
+        userServiceFeign.updState(ids,productState);
+    }
+    @GetMapping("findProById")
+    public ProBean findProById( Integer productId){
+        ProBean pro=userServiceFeign.findProById(productId);
+        return pro;
+    }
+
+    @PutMapping("updatePro")
+    @ResponseBody
+    public void updatePro(@RequestBody ProBean proBean){
+        userServiceFeign.updatePro(proBean);
+        System.out.print(proBean);
+    }
+
 }
