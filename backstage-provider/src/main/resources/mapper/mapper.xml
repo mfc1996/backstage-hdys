@@ -15,9 +15,7 @@
     </select>
 
     <select id="queryProList"  resultType="com.jk.model.ProBean">
- select * from h_product t1
-LEFT JOIN h_product_stock tt on tt.productId=t1.productId
-LEFT JOIN h_stock t on tt.stockId = t.stockId
+ select * from h_product
         limit #{start},#{rows}
 </select>
 
