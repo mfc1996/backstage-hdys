@@ -87,5 +87,10 @@ public class UserServiceImpl implements UserService{
         return userMapper.findAreaId(pid);
     }
 
+    @Override
+    public void stockUpdate(@RequestParam("ids") Integer ids) {
+        userMapper.stockUpdate(ids);
+    }
+
 
 }

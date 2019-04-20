@@ -43,6 +43,36 @@
     })
 
 
+    /****************************************************************产品库存*********************************************************************/
+
+function stockUpdate(ids) {
+        $.ajax({
+            url: "../stockUp",
+            type: "put",
+            data: {
+                ids: ids,
+            },
+            success: function (data) {
+                bootbox.alert({
+                    size: "small",
+                    title: "提示",
+                    message: "修改成功！",
+                    callback: function () {
+                    },
+                    buttons: {
+                        ok: {
+                            label: '确定',
+                            className: 'btn-success'
+                        }
+                    }
+                })
+                //刷新表格
+                $("#proTable").bootstrapTable('refresh');
+            }
+        })
+
+    }
+
 
     /****************************************************************产品查询*********************************************************************/
     //查询用户信息
@@ -85,7 +115,7 @@
                     }},
 
                 {field: 'productState', title: '操作', align: 'center', formatter: function (value, row, index) {
-                    return " <a href='javascript:openUpdate("+row.productId+")'>修改</a>";
+                    return " <a href='javascript:openUpdate("+row.productId+")'>修改</a> | <a href='javascript:stockUpdate("+row.productId+")'>库存</a>";
                     }
 
                 }

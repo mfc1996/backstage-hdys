@@ -56,11 +56,16 @@ public class UserController {
         userServiceFeign.updatePro(proBean);
     }
 
-  @GetMapping("findAreaId")
+    @GetMapping("findAreaId")
     @ResponseBody
     public List<TypeBean> findAreaId(@RequestParam("pid") Integer pid){
         return userServiceFeign.findAreaId(pid);
   }
 
 
+  //库存量改变
+  @PutMapping("stockUp")
+    public void stockUpdate(@RequestParam("ids") Integer ids){
+    userServiceFeign.stockUpdate(ids);
+}
 }

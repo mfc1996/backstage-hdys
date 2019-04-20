@@ -41,4 +41,7 @@ public interface UserService {
    @ResponseBody
     List<TypeBean> findAreaId(@RequestParam("pid") Integer pid);
 
+   @PutMapping("stockUp")
+   @ResponseBody
+   void stockUpdate(@RequestParam("ids") Integer ids);
 }

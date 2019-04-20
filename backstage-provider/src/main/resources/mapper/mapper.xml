@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.mapper.UserMapper">
- <!--   <select id="queryCount" resultType="int">
+    <!--   <select id="queryCount" resultType="int">
 
-        select count(*) from h_user
-    </select>
+           select count(*) from h_user
+       </select>
 
-    <select id="queryList"  resultType="com.jk.model.User">
- select * from h_user
-        limit #{start},#{rows}
-</select>-->
+       <select id="queryList"  resultType="com.jk.model.User">
+    select * from h_user
+           limit #{start},#{rows}
+   </select>-->
     <select id="queryProCount" resultType="int">
         select count(1) from h_product
     </select>
@@ -33,17 +33,17 @@
         insert into h_product (productName,productPrice,productStockId,productDeliveryTime,paymentId,proDealCount,productState,productImg,typeId) values(#{productName},#{productPrice},#{productStockId},#{productDeliveryTime},#{paymentId},#{proDealCount},#{productState},#{productImg},#{typeId})
    </insert>
 
-<insert id="saveProType" parameterType="int">
+    <insert id="saveProType" parameterType="int">
     insert into h_product_type (typeId,productId)values(#{typeId},#{productId})
 </insert>
-    <update id="updState" >
-        update h_product  set productSate=#{productState} where productId in
+    <update id="updState">
+        update h_product  set productState=#{productState} where productId in
         <foreach collection="ids" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </update>
 
-<select id="findProById" resultType="com.jk.model.ProBean"  parameterType="int">
+    <select id="findProById" resultType="com.jk.model.ProBean"  parameterType="int">
     select * from h_product where productId = #{value}
 </select>
 
@@ -56,5 +56,8 @@
         select id,text  from h_type where pid =#{value}
     </select>
 
+    <update id="stockUpdate" parameterType="int">
+        update h_product set productStockId= productStockId - 1 where productId = #{value}
+    </update>
 
 </mapper>
