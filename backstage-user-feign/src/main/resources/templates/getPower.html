@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Insert title here</title>
+
+
+</head>
+<script  src="/easyui/jquery.min.js"></script>
+<link  rel="stylesheet"  href="/easyui/jquery-easyui-1.5/themes/icon.css" />
+<link rel="stylesheet"  href="/easyui/jquery-easyui-1.5/themes/default/easyui.css" />
+<script  src="/easyui/jquery-easyui-1.5/jquery.easyui.min.js" ></script>
+<script src="/easyui/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js" ></script>
+
+<body>
+
+            <!-- 树 -->
+            <div class="easyui-tree">
+                <!-- 树的结构 -->
+                <ul id="treeId">
+
+                </ul>
+
+            </div>
+
+</body>
+<script type="text/javascript">
+    $(function(){
+        initTree();
+    })
+
+    function initTree(){
+       var a= $("#hidden1").val();
+    //查找树
+    $("#treeId").tree({
+        url:'../user/queryRolePowerByRoleId?roleId='+a,
+        method:"get",
+        parentField:"pid",
+        lines:true,
+        checkbox:true,
+
+    })
+    }
+    function createFrame(url){
+
+        return '<iframe src="'+url+'" frameborder="0" allowfullscreen="true" width="100%" height="100%" ></iframe> ';
+    }
+
+
+
+</script>
+</html>

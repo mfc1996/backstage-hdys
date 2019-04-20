@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入jquery -->
+    <script src="/easyui/jquery.min.js"></script>
+    <!-- 引入bootstrop3 css,js-->
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+
+    <!-- 引入bootstrop-table css,js,中文-->
+    <link rel="stylesheet"  href="/bootstrap/bootstrap-table/bootstrap-table.css"></link>
+
+    <script type="text/javascript"    src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+
+    <script type="text/javascript" src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- 引入bootstrop-bootbox js,-->
+    <script type="text/javascript"  src="/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入bootstrap fileinput的css、js -->
+    <link type="text/css" rel="stylesheet"  href="/bootstrap/bootstrap-fileinput/css/fileinput.min.css">
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+</head>
+<body>
+<div id="toolbar">
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="username">用户名</label> <input class="form-control"id="username" placeholder="请输入用户名">
+        </div>
+        <div>
+            <button   type="button" class="btn btn-primary glyphicon glyphicon-zoom-in"onclick="searchUser()">搜索</button>
+            <!--shiro隐藏-->
+            <shiro:hasPermission name="admin:create">
+            <button type="button"  shiro:hasPermission=""
+                    class="btn btn-primary glyphicon glyphicon-minus"
+                    onclick="deleteManyUser()">批量删除</button>
+            </shiro:hasPermission>
+            <button type="button"
+                    class="btn btn-success glyphicon glyphicon-plus"
+                    onclick="">新增</button>
+
+
+        </div>
+    </form>
+</div>
+<table class="table" id="userTable"></table>
+</body>
+<script>
+    $(function(){
+        //初始化用户数据
+        initTable();
+    })
+
+    //搜索按钮  注意条件查询传到后台的参数要在初始化用户的时候传入
+    function searchUser(){
+        $("#userTable").bootstrapTable("refresh");
+    }
+
+    //初始化用户数据
+    function initTable(){
+        $("#userTable").bootstrapTable({
+            url:"../user/queryUserList",//地址
+            pagination:true,//分页
+            pageSize:2,//默认分页条数
+            pageList:[2,5,10],//分页可选的展示条数
+            toolbar:$("#toolbar"),//工具融合
+            sidePagination:"server",
+            striped:true,//条纹显示
+            queryParams:function(){//bootstrap要自己传入分页
+                return{
+                    page:this.pageNumber,//当前页数
+                    rows:this.pageSize//分页条数
+                };
+            },
+            columns:[//对应的表单
+                {field:"checkbox",checkbox:true,align:'center',width:150},
+                {field:"userId",title:"用户id",align:'center',width:150},     //field:对应的字段;title:对应的名称,
+                {field:"userName",title:"用户姓名",align:'center',width:150},// align:排列,width:宽度
+                {field:"userAge",title:"用户年龄",align:'center',width:150},
+                {field:"userSex",title:"性别",align:'center',width:150,formatter:function(value,row,index){
+                        return value==1?"男":value==2?"女":"未知";
+                    }},
+                {field:"userBalance",title:"用户余额",align:'center',width:150},
+                {field:"userAccount",title:"账号",align:'center',width:150},
+                {field:"userPassword",title:"密码",align:'center'},
+                {field:"roleName",title:"用户角色",align:'center'},
+                {field:"userImg",title:"用户头像",align:'center',width:150,formatter:function(value){
+                        return  "<img src='"+value+"'/>";
+                    }},
+                {field:"userDate",title:"用户创建时间",align:'center',width:150},
+                {field:"userPhone",title:"用户手机号",align:'center',width:150},
+                {field:"22",title:"修改角色",align:'center',width:150,formatter:function(value,row,index){
+                    return "<a href='javaScript:updateUserRoleByUserId("+row.userId+")'>修改角色</a>";
+                    }},
+
+            ]
+        })
+    }
+    /**
+     * 修改用户的角色
+     * /
+     */
+    function updateUserRoleByUserId(id){
+        addGoods(id);
+    }
+
+    /**
+     * 删除用户
+     */
+    function deleteManyUser(){
+          var checkUsers=$("#userTable").bootstrapTable("getSelections");
+          if(checkUsers.length==0){
+              alert("请选择要删除的用户");
+              return ;
+          }
+
+          var ids="";
+          for (var i=0;i<checkUsers.length;i++){
+              ids+=ids==""?checkUsers[i].userId:","+checkUsers[i].userId;
+          }
+          $.ajax({
+              url:"../user/deleteManyUser",
+              type:"get",
+              data:{ids:ids},
+              success:function(data){
+                  if(data){
+                      alert("删除成功");
+                  }
+                  $("#userTable").bootstrapTable("refresh");
+              }
+          })
+
+    }
+    //打开弹框，查询角色
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    //和上面的联合使用
+    function addGoods(id){
+        bootbox.dialog({
+            title:'选择角色',
+            message: createAddContent("../page/openUserGetRole"),
+            closeButton: true,
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                      var aa= $("#roleTable").bootstrapTable("getSelections")[0].roleId;
+                      alert($("#roleTable").bootstrapTable("getSelections").length);
+                      alert(aa);
+                        $.ajax({
+                            url:'../user/updateUserRoleByUserIdAndRoleId',
+                            type:'put',
+                            data:{roleId:aa,userId:id},
+                            dataType:'json',
+                            success:function(data){
+                                if(data){
+                                    alert("修改成功");
+                                }
+                                $('#myTable').bootstrapTable('refresh');
+                            }
+                        });
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+
+
+    }
+
+</script>
+
+
+</html>

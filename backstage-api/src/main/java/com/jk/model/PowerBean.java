@@ -1,4 +1,4 @@
-package com.jk;
+package com.jk.model;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ public class PowerBean {
     private Integer pid;
     private Boolean selectable;
     private List<PowerBean> nodes;
+    private Boolean checked ;
+    private List<PowerBean> children;
 
     public Integer getId() {
         return id;
@@ -67,6 +69,22 @@ public class PowerBean {
         this.nodes = nodes;
     }
 
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
+    public List<PowerBean> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<PowerBean> children) {
+        this.children = children;
+    }
+
     @Override
     public String toString() {
         return "PowerBean{" +
@@ -77,6 +95,8 @@ public class PowerBean {
                 ", pid=" + pid +
                 ", selectable=" + selectable +
                 ", nodes=" + nodes +
+                ", checked=" + checked +
+                ", children=" + children +
                 '}';
     }
 }

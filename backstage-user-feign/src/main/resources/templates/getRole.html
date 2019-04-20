@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入jquery -->
+    <script src="/easyui/jquery.min.js"></script>
+    <!-- 引入bootstrop3 css,js-->
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+
+    <!-- 引入bootstrop-table css,js,中文-->
+    <link rel="stylesheet"  href="/bootstrap/bootstrap-table/bootstrap-table.css"></link>
+
+    <script type="text/javascript"    src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+
+    <script type="text/javascript" src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- 引入bootstrop-bootbox js,-->
+    <script type="text/javascript"  src="/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入bootstrap fileinput的css、js -->
+    <link type="text/css" rel="stylesheet"  href="/bootstrap/bootstrap-fileinput/css/fileinput.min.css">
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+</head>
+<body>
+    <table id="roleTable"> </table>
+</body>
+<script>
+    $(function(){
+        initTable();
+    })
+    //初始化角色数据
+    function initTable(){
+        $("#roleTable").bootstrapTable({
+            url:"../user/queryRoleList",//地址
+            pagination:true,//分页
+            pageSize:8,//默认分页条数
+            singleSelect : true,                     // 单选checkbox
+            pageList:[2,5,8,10],//分页可选的展示条数
+            toolbar:$("#toolbar"),//工具融合
+            sidePagination:"server",
+            striped:true,//条纹显示
+            queryParams:function(){//bootstrap要自己传入分页
+                return{
+                    page:this.pageNumber,//当前页数
+                    rows:this.pageSize//分页条数
+                };
+            },
+            columns:[//对应的表单
+                {field:"checkbox",checkbox:true,align:'center',width:150},
+                {field:"roleId",title:"角色id",align:'center',width:150},     //field:对应的字段;title:对应的名称,
+                {field:"roleName",title:"用户姓名",align:'center',width:150},// align:排列,width:宽度
+                {field:"roleInfo",title:"用户年龄",align:'center',width:150},
+
+
+            ]
+        })
+    }
+
+
+
+</script>
+
+
+</html>

@@ -1,9 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.mapper.UserMapper">
-    <select id="queryPowerList" parameterType="int" resultType="com.jk.PowerBean">
-        select id,text,href,pid from h_power where pid=#{value}
+    <!--树的查询-->
+    <select id="queryPowerList"  resultType="com.jk.model.PowerBean">
+        select id,text,href,pid  from h_power where pid=#{id} and id in(
+select powerId from h_role_power  where roleId=(select roleId from h_user_role where userId=#{userId} ))
     </select>
+    <!--权限的查询-->
+    <select id="queryRolePowerByRoleId" parameterType="int" resultType="com.jk.model.PowerBean">
+
+select id,text,url,pid from h_power where pid=#{value}
+    </select>
+
+    <!--用户数量的查询-->
+     <select id="getUserCount"  parameterType="map" resultType="int">
+       SELECT count(*) from h_user
+     </select>
+    <!--用户数据的查询 deleteManyUser-->
+     <select id="queryUserList"  parameterType="map" resultType="com.jk.model.User" >
+         SELECT roleName, a.userId,userName,userSex,userAge,userBalance,date_format(userDate, '%Y-%m-%d')as userDate ,userImg,userPassword,userPhone,userPhonePassword,userQQAccount,
+         userQQPassword,userWechatAccount,userAccount, userWechatPassword from h_user a left join h_user_role b  on a.userId=b.userId left join h_role c on b.roleId=
+         c.roleId
+       <where>
+           <if test="user.userName!=null and user.userName!=''">
+                and userName  like  %#{user.userName}% or  userAccount like %#{user.userName}%
+           </if>
+       </where>
+     </select>
+    <!--根据用户账号查找用户 -->
+    <select id="queryUserByName" resultType="com.jk.model.User" parameterType="String">
+        SELECT roleName, a.userId,userName,userSex,userAge,userBalance,date_format(userDate, '%Y-%m-%d')as userDate ,userImg,userPassword,userPhone,userPhonePassword,userQQAccount,
+         userQQPassword,userWechatAccount,userAccount, userWechatPassword from h_user a left join h_user_role b  on a.userId=b.userId left join h_role c on b.roleId=
+c.roleId where a.userAccount=#{value}
+    </select>
+
+    <!--通过用户名查找用户的角色权限 -->
+    <select id="queryRolePowerByUserName" resultType="String" parameterType="String">
+
+SELECT admin roleName from h_admin where roleId=(        SELECT C.ROLEID AS USERID FROM H_USER A LEFT JOIN H_USER_ROLE B  ON A.USERID=B.USERID LEFT JOIN H_ROLE C ON B.ROLEID=
+C.ROLEID WHERE A.USERACCOUNT=#{value})
+    </select>
+    <!--用户列表删除  支持批删 -->
+    <delete id="deleteManyUser" parameterType="String">
+        DELETE FROM H_USER WHERE userid in
+        <foreach collection="array" close=")" index="index"  item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <update id="updateUserRoleByUserIdAndRoleId">
+        update h_user_role set roleId=#{roleId} where userId=#{userId}
+    </update>
+
+    <select id="getRoleCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM H_ROLE
+    </select>
+    <!--角色的查询-->
+    <select id="queryRoleList" resultType="com.jk.model.RoleBean" parameterType="map">
+        SELECT roleId,roleName,roleInfo,roleState FROM h_role limit #{start},#{rows}
+    </select>
+    <!--角色的查询-->
+    <select id="getRolePower" resultType="Integer" parameterType="Integer">
+        SELECT b.powerId from  h_role_power  b where b.roleId=#{value}
+    </select>
+    <!--角色的删除-->
+    <delete id="deleteManyRole" parameterType="String">
+        DELETE FROM H_ROLE WHERE roleId in
+        <foreach collection="array" close=")" index="index"  item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <!--删除角色的权限-->
+    <delete id="deleteRolePower" parameterType="Integer">
+DELETE FROM h_role_power WHERE roleId=#{value}
+    </delete>
+    <insert id="addRolePowers"  >
+          INSERT INTO h_role_power (roleId,powerId) VALUES
+        <foreach collection="powerIds"   item="item" separator=",">
+            (#{roleId},#{item})
+        </foreach>
+    </insert>
+
 
 
 

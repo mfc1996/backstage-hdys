@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入jquery -->
+    <script src="/easyui/jquery.min.js"></script>
+    <!-- 引入bootstrop3 css,js-->
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+
+    <!-- 引入bootstrop-table css,js,中文-->
+    <link rel="stylesheet"  href="/bootstrap/bootstrap-table/bootstrap-table.css"></link>
+
+    <script type="text/javascript"    src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+
+    <script type="text/javascript" src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- 引入bootstrop-bootbox js,-->
+    <script type="text/javascript"  src="/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入bootstrap fileinput的css、js -->
+    <link type="text/css" rel="stylesheet"  href="/bootstrap/bootstrap-fileinput/css/fileinput.min.css">
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+</head>
+<body>
+<div id="toolbar">
+    <form class="form-inline">
+        <div>
+            <shiro:hasPermission name="admin:delete">
+            <button type="button"
+                    class="btn btn-primary glyphicon glyphicon-minus"
+                    onclick="deleteManyUser()">批量删除</button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="admin:add">
+            <button type="button"
+                    class="btn btn-success glyphicon glyphicon-plus"
+                    onclick="">新增</button>
+            </shiro:hasPermission>
+
+
+        </div>
+    </form>
+</div>
+<input type="hidden" id="hidden1"/>
+<table class="table" id="roleTable"></table>
+</body>
+<script>
+    $(function(){
+        //初始化用户数据
+        initTable();
+    })
+
+    //搜索按钮  注意条件查询传到后台的参数要在初始化用户的时候传入
+    function searchUser(){
+        $("#roleTable").bootstrapTable("refresh");
+    }
+
+    //初始化用户数据
+    function initTable(){
+        $("#roleTable").bootstrapTable({
+            url:"../user/queryRoleList",//地址
+            pagination:true,//分页
+            pageSize:8,//默认分页条数
+            pageList:[2,5,8,10],//分页可选的展示条数
+            toolbar:$("#toolbar"),//工具融合
+            sidePagination:"server",
+            striped:true,//条纹显示
+            queryParams:function(){//bootstrap要自己传入分页
+                return{
+                    page:this.pageNumber,//当前页数
+                    rows:this.pageSize//分页条数
+                };
+            },
+            columns:[//对应的表单
+                {field:"checkbox",checkbox:true,align:'center',width:150},
+                {field:"roleId",title:"角色id",align:'center',width:150},     //field:对应的字段;title:对应的名称,
+                {field:"roleName",title:"角色名称",align:'center',width:150},// align:排列,width:宽度
+                {field:"roleInfo",title:"角色信息",align:'center',width:150},
+                {field:"111",title:"赋权限",align:'center',width:150,formatter:function(value,row,index){
+                    return "<button type=\"button\" class=\"btn btn-primary glyphicon glyphicon-zoom-in\" onclick=\"updateRolePowerByRoleId('"+row.roleId+"')\">修改权限</button>";
+                    }},
+
+
+            ]
+        })
+    }
+    //修改角色对应的权限通过角色id
+    function updateRolePowerByRoleId(id){
+        $("#hidden1").val(id);
+        addGoods(id);
+    }
+
+    /**
+     * 删除用户
+     */
+    function deleteManyUser(){
+        var checkUsers=$("#roleTable").bootstrapTable("getSelections");
+        if(checkUsers.length==0){
+            alert("请选择要删除的角色");
+            return ;
+        }
+
+        var ids="";
+        for (var i=0;i<checkUsers.length;i++){
+            ids+=ids==""?checkUsers[i].roleId:","+checkUsers[i].roleId;
+        }
+        alert(ids);
+        $.ajax({
+            url:"../user/deleteManyRole",
+            type:"get",
+            data:{ids:ids},
+            success:function(data){
+                if(data){
+                    alert("删除成功");
+                }
+                $("#userTable").bootstrapTable("refresh");
+            }
+        })
+
+    }
+
+    //打开弹框，查询角色
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    //和上面的联合使用
+    function addGoods(id){
+        bootbox.dialog({
+            title:'选择权限',
+            message: createAddContent("../page/getPower"),
+            closeButton: true,
+            buttons : {
+                //回显成功后点击保存触发
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        var a=$("#treeId").tree("getChecked");
+                        var b = $("#treeId").tree("getChecked","indeterminate");
+                        var ids="";
+                        for (var i = 0; i < a.length; i++) {
+
+                            ids+=ids==""?a[i].id:","+a[i].id
+
+                        }
+                        for (var i = 0; i < b.length; i++) {
+
+                            ids+=","+b[i].id
+
+                        }
+                        alert(ids);
+                        $.ajax({
+                            url:'../user/updateRolePowerByRoleIdAndPowerIds',
+                            type:'put',
+                            data:{powerIds:ids,roleId:id},
+                            dataType:'json',
+                            success:function(data){
+                                if(data){
+                                    alert("修改成功");
+                                }
+                            }
+                        });
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+
+
+    }
+
+
+</script>
+
+
+</html>
