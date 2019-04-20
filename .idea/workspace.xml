@@ -2,36 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c12ea7c-c899-4efd-b3fa-281c1599f9af" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/backstage-api/src/main/java/com/jk/model/RoleBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-api/src/main/java/com/jk/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-api/src/main/java/com/jk/service/UserServiceApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-api/target/classes/META-INF/backstage-api.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-api/target/classes/com/jk/model/PowerBean.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-api/target/classes/com/jk/model/RoleBean.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-api/target/classes/com/jk/model/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-api/target/classes/com/jk/service/UserServiceApi.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/shiro/MyRealm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/shiro/ShiroConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/static/img/a40be79ff60c2a3af0e251123ceaa765.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/403.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/getPower.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/getRole.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/notPower.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/role.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-api/src/main/java/com/jk/PowerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-api/src/main/java/com/jk/model/PowerBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-api/target/classes/com/jk/PowerBean.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-user-feign/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-feign/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/PageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/PageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-user-provider/src/main/java/com/jk/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-provider/src/main/java/com/jk/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-user-provider/src/main/java/com/jk/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-provider/src/main/java/com/jk/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-user-provider/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-provider/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backstage-user-provider/src/main/resources/mapper/mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backstage-user-provider/src/main/resources/mapper/mapper.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/backstage-eureka/target/" />
@@ -72,11 +43,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2014">
-              <caret line="123" column="17" lean-forward="true" selection-start-line="123" selection-start-column="17" selection-end-line="123" selection-end-column="17" />
+            <state relative-caret-position="190">
+              <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
               <folding>
                 <element signature="method#deleteManyUser#0;class#UserController#0" />
               </folding>
@@ -123,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2717">
-              <caret line="4" column="73" lean-forward="true" selection-start-line="4" selection-start-column="73" selection-end-line="4" selection-end-column="74" />
+            <state relative-caret-position="133">
+              <caret line="154" column="19" lean-forward="true" selection-start-line="154" selection-start-column="19" selection-end-line="154" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -261,8 +232,8 @@
         <option value="$PROJECT_DIR$/backstage-user-provider/src/main/java/com/jk/mapper/UserMapper.java" />
         <option value="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/role.html" />
         <option value="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/PageController.java" />
-        <option value="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/UserController.java" />
         <option value="$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/user.html" />
+        <option value="$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/UserController.java" />
       </list>
     </option>
   </component>
@@ -755,7 +726,7 @@
       <workItem from="1555636525272" duration="35350000" />
       <workItem from="1555719792799" duration="8492000" />
       <workItem from="1555739922788" duration="7337000" />
-      <workItem from="1555748579842" duration="5779000" />
+      <workItem from="1555748579842" duration="5960000" />
     </task>
     <task id="LOCAL-00001" summary="zw   第一次提交   测试">
       <created>1555403701153</created>
@@ -778,11 +749,18 @@
       <option name="project" value="LOCAL" />
       <updated>1555486045885</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="左側导航树完成   zw">
+      <created>1555755141103</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1555755141103</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147097000" />
+    <option name="totallyTimeSpent" value="147278000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -795,6 +773,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49360147" visible="true" weight="0.20911528" />
       <window_info id="Structure" order="1" sideWeight="0.5021645" side_tool="true" weight="0.21782842" />
@@ -840,7 +819,8 @@
     <MESSAGE value="zw   第一次提交   测试" />
     <MESSAGE value="注册中心测试完成   zw   第一次提交" />
     <MESSAGE value="左側导航树完成   zw" />
-    <option name="LAST_COMMIT_MESSAGE" value="左側导航树完成   zw" />
+    <MESSAGE value="初步完成权限功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="初步完成权限功能" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1250,16 +1230,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2014">
-          <caret line="123" column="17" lean-forward="true" selection-start-line="123" selection-start-column="17" selection-end-line="123" selection-end-column="17" />
-          <folding>
-            <element signature="method#deleteManyUser#0;class#UserController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
@@ -1286,8 +1256,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backstage-user-feign/src/main/resources/templates/user.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2717">
-          <caret line="4" column="73" lean-forward="true" selection-start-line="4" selection-start-column="73" selection-end-line="4" selection-end-column="74" />
+        <state relative-caret-position="133">
+          <caret line="154" column="19" lean-forward="true" selection-start-line="154" selection-start-column="19" selection-end-line="154" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backstage-user-feign/src/main/java/com/jk/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+          <folding>
+            <element signature="method#deleteManyUser#0;class#UserController#0" />
+          </folding>
         </state>
       </provider>
     </entry>
