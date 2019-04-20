@@ -12,6 +12,7 @@ public class ProBean implements Serializable {
     private  Integer      productDiscountId;
     private  Integer      productCollectionId;
     private  Integer       typeId;
+    private  String       typeName;
     private   String     productColor;
     private   Integer      productStockId;
     private    String       productSize;
@@ -23,7 +24,24 @@ public class ProBean implements Serializable {
     private      String    addressId;
     private    Integer     proDealCount;
     private    Integer      stockNumber;
-    private String productImg;
+    private     String        productImg;
+    private    String    shuName;
+
+    public String getShuName() {
+        return shuName;
+    }
+
+    public void setShuName(String shuName) {
+        this.shuName = shuName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     public String getProductImg() {
         return productImg;

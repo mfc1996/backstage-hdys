@@ -7,6 +7,7 @@ public class TranBean implements Serializable {
     private Integer transactionId;
     private Integer transactionState;
 
+
     public Integer getTransactionId() {
         return transactionId;
     }

@@ -1,16 +1,18 @@
 package com.jk.service;
 
 import com.jk.model.ProBean;
+import com.jk.model.TypeBean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public interface UserService {
 
     @GetMapping("queryUserList")
     @ResponseBody
-    HashMap<String, Object> queryList(@RequestParam("page") Integer page, @RequestParam("rows") Integer rows);
+    HashMap<String, Object> queryList(@RequestParam("page") Integer page, @RequestParam("rows") Integer rows,@RequestBody ProBean proBean);
 
     @GetMapping("queryProList")
     @ResponseBody
@@ -32,5 +34,11 @@ public interface UserService {
     ProBean findProById(@RequestParam("productId") Integer productId);
 
    @PutMapping("updatePro")
+   @ResponseBody
     void updatePro( ProBean proBean);
+
+   @GetMapping("productId")
+   @ResponseBody
+    List<TypeBean> findAreaId(@RequestParam("pid") Integer pid);
+
 }

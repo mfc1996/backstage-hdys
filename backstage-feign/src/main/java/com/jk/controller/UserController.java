@@ -1,11 +1,13 @@
 package com.jk.controller;
 
 import com.jk.model.ProBean;
+import com.jk.model.TypeBean;
 import com.jk.service.UserServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -14,8 +16,8 @@ public class UserController {
     private UserServiceFeign userServiceFeign;
 
     @GetMapping("queryUserList")
-    public HashMap<String,Object> queryList(@RequestParam("page") Integer page,@RequestParam("rows") Integer rows){
-        return userServiceFeign.queryList(page,rows);
+    public HashMap<String,Object> queryList(@RequestParam("page") Integer page,@RequestParam("rows") Integer rows,@RequestBody ProBean proBean){
+        return userServiceFeign.queryList(page,rows,proBean);
     }
 
     @GetMapping("queryProList")
@@ -52,7 +54,13 @@ public class UserController {
     @ResponseBody
     public void updatePro(@RequestBody ProBean proBean){
         userServiceFeign.updatePro(proBean);
-        System.out.print(proBean);
     }
+
+  @GetMapping("findAreaId")
+    @ResponseBody
+    public List<TypeBean> findAreaId(@RequestParam("pid") Integer pid){
+        return userServiceFeign.findAreaId(pid);
+  }
+
 
 }

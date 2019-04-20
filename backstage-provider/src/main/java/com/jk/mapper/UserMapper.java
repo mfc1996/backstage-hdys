@@ -1,8 +1,10 @@
 package com.jk.mapper;
 
 import com.jk.model.ProBean;
+import com.jk.model.TypeBean;
 import com.jk.model.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -10,9 +12,9 @@ import java.util.List;
 public interface UserMapper {
 
 //人员查询条数
-    Integer queryCount();
+    Integer queryCount(@Param("proBean")ProBean proBean);
 //人员分页查询
-    List<User> queryList(@Param("start") Integer start, @Param("rows") Integer rows);
+    List<User> queryList(@Param("start") Integer start, @Param("rows") Integer rows,@Param("proBean")ProBean proBean);
 
     //产品信息查询
     int queryProCount();
@@ -30,4 +32,10 @@ public interface UserMapper {
     ProBean findProById(Integer productId);
 
     void updatePro( ProBean proBean);
+
+
+    List<TypeBean> findAreaId(Integer pid);
+
+    void saveProType(@RequestParam("typeId") Integer typeId, @RequestParam("productId") int productId);
+
 }

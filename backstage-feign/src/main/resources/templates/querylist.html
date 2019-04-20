@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
+
 </head>
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
@@ -10,6 +11,7 @@
 <link type="text/css" rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css"></link>
 <link type="text/css" rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"></link>
 <link type="text/css" rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css"></link>
+<link rel="stylesheet" type="text/css" href="../js/uploadify/uploadify.css" />
 
 <script src="../js/bootstrap3/js/bootstrap.js"></script>
 <script src="../js/bootstrap-bootbox/bootbox.js"></script>
@@ -18,6 +20,8 @@
 <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+<script type="text/javascript" src="../js/uploadify/jquery.uploadify.min.js"></script>
+
 <body>
 
 <div>
@@ -29,13 +33,17 @@
     </form>
 </div>
 <table class="table" id="proTable"></table>
-</body>
+ </body>
 <script>
+
 
     $(function(){
         initPro();
 
     })
+
+
+
     /****************************************************************产品查询*********************************************************************/
     //查询用户信息
     function initPro(){
@@ -60,8 +68,11 @@
                 {checkbox:true},
                 {field:'productId',title:'商品编号',align:'center'},
                 {field:'productName',title:'商品名称',align:'center'},
-                {field:'productImg',title:'图片',formatter:function(rows,index,value){
-                        return "<img src='"+value+"'>";
+                {field:'oo',title:'类型-款式',align:'center',formatter:function(value,row,index){
+                        return ""+row.typeName+"↜↝"+row.shuName;
+                    }},
+                {field:'productImg',title:'照片',formatter:function(value,row,index){
+                        return "<img width='50px' height='50px' src='"+value+"'>";
                     }},
                 {field:'productPrice',title:'产品价格',align:'center'},
                 {field:'productStockId',title:'产品库存'},
@@ -70,7 +81,7 @@
                         return value==1?"微信":"支付宝" }},
                 {field:'proDealCount',title:'交易数量'},
                  {field: "productState", title: "商品状态",formatter:function(value,row,index){
-                        return value == 1 ? "上架" :(value == 2 ? "下架":(value == 3 ? "待上架" : ""));
+                        return value == 1 ? "上架" :(value == 2 ? "下架":"待上架");
                     }},
 
                 {field: 'productState', title: '操作', align: 'center', formatter: function (value, row, index) {
@@ -81,11 +92,45 @@
             ]
         });
     }
-    /***************************************************************批量修改**********************************************************************/
+
+    /***************************************************************下拉类型 二级联动**********************************************************************/
+
+    function initArea(){
+            var pid = 0;
+            $.ajax({
+                url:'../findAreaId',
+                type:'get',
+                data:{pid:pid},
+                success:function(data){
+                    var html = "<option value='-1'>请选择</option>";
+                    for (var i = 0; i < data.length; i++) {
+                        html+="<option value='"+data[i].id+"'>"+data[i].text+"</option>";
+                    }
+                    $("#areaId").html(html);
+                }
+            })
+    }
+    function changeCity(id){
+        $.ajax({
+            url:'../findAreaId',
+            type:'get',
+            data:{pid:id},
+            success:function(data){
+                var html = "<option value='-1'>请选择</option>";
+                for (var i = 0; i < data.length; i++) {
+                    html+="<option value='"+data[i].id+"'>"+data[i].text+"</option>";
+                }
+                $("#cityIds").html(html);
+            }
+        })
+    }
+
+    /***************************************************************修改**********************************************************************/
 
 
     //打开修改弹框
     function openUpdate(productId){
+        initArea();
         //打开弹框
         bootbox.dialog({
             title:'修改',
@@ -103,7 +148,9 @@
                         var productDeliveryTime = $("#productDeliveryTime").val();
                         var paymentId = $('#paymentId input:radio:checked').val();
                         var proDealCount = $("#proDealCount").val();
-                        var productState = $('#productState input:radio:checked').val()
+                        var productState = $('#productState input:radio:checked').val();
+                        var productImg = $("#productImg").val();
+                        var typeId = $("#cityIds").val();
                         $.ajax({
                             url:'../updatePro',
                             type:'put',
@@ -116,7 +163,9 @@
                                 'productDeliveryTime': productDeliveryTime,
                                 'paymentId': paymentId,
                                 'proDealCount': proDealCount,
-                                'productState': productState
+                                'productState': productState,
+                                'productImg':productImg,
+                                'typeId':typeId
                             }),
                             success:function(){
                        $("#proTable").bootstrapTable('refresh');
@@ -148,6 +197,7 @@
                 $("#productDeliveryTime").val(data.productDeliveryTime);
                 $('#paymentId input:radio:checked').val(data.paymentId);
                 $("#proDealCount").val(data.proDealCount);
+                $("#cityIds").val(data.typeId);
             }
         });
 
@@ -196,7 +246,6 @@
                         for(var i=0;i<rows.length;i++){
                             ids+=ids==""?rows[i].productId:","+rows[i].productId;
                         }
-                        alert(ids)
                         //后台ajax上下架
                         $.ajax({
                             url:"../updstate1",
@@ -297,6 +346,7 @@
     }
     //打开新增弹框
     function openUser(){
+        initArea();
         bootbox.dialog({
             title:'新增',
             message: createAddContent("../page/addPro"),
@@ -312,7 +362,10 @@
                         var productDeliveryTime = $("#productDeliveryTime").val();
                         var paymentId = $('#paymentId input:radio:checked').val();
                         var proDealCount = $("#proDealCount").val();
-                        var productState = $('#productState input:radio:checked').val()
+                        var productState = $('#productState input:radio:checked').val();
+                        var productImg = $("#productImg").val();
+                        var typeId = $("#cityIds").val();
+                        alert(typeId);
                         $.ajax({
                             url:'../savePro',
                             type:'post',
@@ -324,7 +377,9 @@
                                 'productDeliveryTime': productDeliveryTime,
                                 'paymentId': paymentId,
                                 'proDealCount': proDealCount,
-                                'productState': productState
+                                'productState': productState,
+                                'productImg': productImg,
+                                'typeId':typeId
                             }),
                             dataType:'json',
                             success:function(data){
@@ -333,9 +388,10 @@
                                     title: "提示",
                                     message: "新增成功成功!",
                                     callback: function () {
+                                        $('#proTable').bootstrapTable('refresh');
                                     }
                                 })
-                               $('#proTable').bootstrapTable('refresh');
+
                             }
                         });
                     }
@@ -363,6 +419,18 @@
         autoclose: true,//选中自动关闭
         todayBtn: true//显示今日按钮
     });
+
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
 
 
 </script>

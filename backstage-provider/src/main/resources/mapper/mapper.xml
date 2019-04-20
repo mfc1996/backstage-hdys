@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.mapper.UserMapper">
-    <select id="queryCount" resultType="int">
+ <!--   <select id="queryCount" resultType="int">
 
         select count(*) from h_user
     </select>
@@ -9,13 +9,16 @@
     <select id="queryList"  resultType="com.jk.model.User">
  select * from h_user
         limit #{start},#{rows}
-</select>
+</select>-->
     <select id="queryProCount" resultType="int">
         select count(1) from h_product
     </select>
 
     <select id="queryProList"  resultType="com.jk.model.ProBean">
- select * from h_product
+      select t.*,t2.text typeName,t3.text shuName from h_product t
+        LEFT JOIN h_product_type t1 on t1.productId = t.productId
+        LEFT JOIN h_type t2 on t2.id=t1.typeId
+        LEFT JOIN h_type t3 on t3.id=t2.pid
         limit #{start},#{rows}
 </select>
 
@@ -26,13 +29,15 @@
         </foreach>
     </delete>
 
-    <insert id="savePro" parameterType="com.jk.model.ProBean" >
-        insert into h_product (productName,productPrice,productStockId,productDeliveryTime,paymentId,proDealCount,productState) values(#{productName},#{productPrice},#{productStockId},#{productDeliveryTime},#{paymentId},#{proDealCount},#{productState})
+    <insert id="savePro" parameterType="com.jk.model.ProBean" useGeneratedKeys="true" keyProperty="productId">
+        insert into h_product (productName,productPrice,productStockId,productDeliveryTime,paymentId,proDealCount,productState,productImg,typeId) values(#{productName},#{productPrice},#{productStockId},#{productDeliveryTime},#{paymentId},#{proDealCount},#{productState},#{productImg},#{typeId})
    </insert>
 
-
+<insert id="saveProType" parameterType="int">
+    insert into h_product_type (typeId,productId)values(#{typeId},#{productId})
+</insert>
     <update id="updState" >
-        update h_product  set productState=#{productState} where productId in
+        update h_product  set productSate=#{productState} where productId in
         <foreach collection="ids" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
@@ -42,8 +47,14 @@
     select * from h_product where productId = #{value}
 </select>
 
-    <update id="updatePro" parameterType="com.jk.model.ProBean">
-        update h_product set productName=#{productName},productPrice=#{productPrice},productStockId=#{productStockId},productDeliveryTime=#{productDeliveryTime},paymentId=#{paymentId},proDealCount=#{proDealCount},productState=#{productState} where productId=#{productId}
+    <update id="updatePro" parameterType="com.jk.model.ProBean" >
+        update h_product set productName=#{productName},productPrice=#{productPrice},productStockId=#{productStockId},productDeliveryTime=#{productDeliveryTime},paymentId=#{paymentId},proDealCount=#{proDealCount},productState=#{productState},productImg=#{productImg} where productId=#{productId}
     </update>
+
+
+    <select id="findAreaId" parameterType="int" resultType="com.jk.model.TypeBean">
+        select id,text  from h_type where pid =#{value}
+    </select>
+
 
 </mapper>
