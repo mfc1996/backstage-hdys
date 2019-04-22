@@ -1,10 +1,11 @@
 package com.jk.service;
 
 import com.jk.mapper.UserMapper;
-import com.jk.model.ProBean;
-import com.jk.model.TypeBean;
-import com.jk.model.User;
+import com.jk.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     @Autowired
     protected UserMapper userMapper;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     @ResponseBody
@@ -35,6 +42,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @ResponseBody
     public HashMap<String, Object> queryProList(@RequestParam("page")Integer page,  @RequestParam("rows")Integer rows) {
+        String key ="keys"+"1";
         HashMap<String ,Object> hashMap=new HashMap<>();
         //查询总条数
         int count=userMapper.queryProCount();
@@ -43,6 +51,7 @@ public class UserServiceImpl implements UserService{
         List<User> list=userMapper.queryProList(start,rows);
         hashMap.put("total",count);
         hashMap.put("rows",list);
+        redisTemplate.opsForList().leftPush(key,hashMap);
         return hashMap;
     }
 
@@ -90,6 +99,35 @@ public class UserServiceImpl implements UserService{
     @Override
     public void stockUpdate(@RequestParam("ids") Integer ids) {
         userMapper.stockUpdate(ids);
+    }
+
+    @ResponseBody
+    @Override
+    public HashMap<String, Object> mongodList(@RequestParam("page")Integer page, @RequestParam("rows")Integer rows) {
+        HashMap<String,Object> hashMap=new HashMap<>();
+        Query query = new Query();
+        //查询总条数
+        long count = mongoTemplate.count(query, ComBean.class);
+        //查询分页
+        //计算开始条数
+        int start = (page-1)*rows;
+        query.skip(start).limit(rows);
+
+
+        List<ComBean> list = mongoTemplate.find(query, ComBean.class);
+        hashMap.put("total", count);
+        hashMap.put("rows", list);
+        return hashMap;
+    }
+
+    @Override
+    public void saveMongod(@RequestBody ComBean comBean) {
+        mongoTemplate.save(comBean);
+    }
+
+    @Override
+    public List<LunBean> queryLun() {
+        return userMapper.queryLun();
     }
 
 

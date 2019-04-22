@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container-fluid">
+    <form id="comForm">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="typeId">产品编号:</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="typeId" name="typeId"/>
+                </div>
+                <div class="col-md-2">
+                    <label for="typeName">产品名称:</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="typeName" name="typeName"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="commentInfo">产品评论:</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="commentInfo" name="commentInfo"/>
+                </div>
+                <div class="col-md-2">
+                    <label for="commentTime">评论时间:</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control date" id="commentTime" name="commentTime"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+
+    $('.date').datetimepicker({
+        language: 'zh-CN',//显示中文
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "month",//设置只显示到月份
+        initialDate: new Date(),//初始化当前日期
+        autoclose: true,//选中自动关闭
+        todayBtn: true//显示今日按钮
+    });
+
+
+</script>
+</html>

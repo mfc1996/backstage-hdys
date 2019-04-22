@@ -1,11 +1,14 @@
 package com.jk.controller;
 
+import com.jk.model.ComBean;
+import com.jk.model.LunBean;
 import com.jk.model.ProBean;
 import com.jk.model.TypeBean;
 import com.jk.service.UserServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,6 +69,31 @@ public class UserController {
   //库存量改变
   @PutMapping("stockUp")
     public void stockUpdate(@RequestParam("ids") Integer ids){
+
     userServiceFeign.stockUpdate(ids);
 }
+   //评论
+   @GetMapping("mongodList")
+   @ResponseBody
+   public HashMap<String, Object> findBookList(@RequestParam("page") Integer page, @RequestParam("rows") Integer rows){
+        System.out.println(page);
+       return userServiceFeign.mongodList(page,rows);
+   }
+
+   //评论新增
+  @PostMapping("saveMongod")
+   public void saveMongod(@RequestBody ComBean comBean) {
+        comBean.setTypeId(1);
+        comBean.setTypeName("ssss");
+        comBean.setCommentInfo("很好，经济实惠");
+        comBean.setCommentTime(new Date());
+       userServiceFeign.saveMongod(comBean);
+   }
+
+   //轮播图查询
+    @GetMapping("queryLunList")
+    @ResponseBody
+    public List<LunBean> queryLun(){
+        return userServiceFeign.queryLun();
+    }
 }

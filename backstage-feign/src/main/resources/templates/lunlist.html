@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"></link>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css"></link>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"></link>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css"></link>
+<link rel="stylesheet" type="text/css" href="../js/uploadify/uploadify.css" />
+
+<script src="../js/bootstrap3/js/bootstrap.js"></script>
+<script src="../js/bootstrap-bootbox/bootbox.js"></script>
+<script src="../js/bootstrap-table/bootstrap-table.js"></script>
+<script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+<script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+<script type="text/javascript" src="../js/uploadify/jquery.uploadify.min.js"></script>
+<body>
+<table class="table" id="lunTable"></table>
+</body>
+<script>
+
+    $(function(){
+        initLun();
+    })
+    //查询用户信息
+    function initLun(){
+        $('#lunTable').bootstrapTable({
+            url:'../queryLunList',//获取数据地址
+            clickToSelect: true, //是否启用点击选中行
+            columns:[
+                {checkbox:true},
+                {field:'id',title:'商品编号',align:'center'},
+                {field:'lunImg',title:'照片',formatter:function(value,row,index){
+                        return "<img width='250px' height='250px' src='"+value+"'>";
+                    }}
+
+            ]
+        });
+    }
+
+</script>
+</html>

@@ -21,4 +21,20 @@ public class PageController {
         return "updatePro";
     }
 
+    @RequestMapping("mongodbcom")
+    public String mongodbcom() {
+        return "mongoCom";
+    }
+
+    @RequestMapping("addcom")
+    public String addcom() {
+        return "addcom";
+    }
+
+
+    @RequestMapping("queryLun")
+    public String queryLun() {
+        return "lunlist";
+    }
+
 }

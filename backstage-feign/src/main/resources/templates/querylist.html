@@ -176,7 +176,7 @@ function stockUpdate(ids) {
                         var productPrice = $("#productPrice").val();
                         var productStockId = $("#productStockId").val();
                         var productDeliveryTime = $("#productDeliveryTime").val();
-                        var paymentId = $('#paymentId input:radio:checked').val();
+                        var paymentId = $('#paymentId input:checkbox:checked').val();
                         var proDealCount = $("#proDealCount").val();
                         var productState = $('#productState input:radio:checked').val();
                         var productImg = $("#productImg").val();
@@ -390,12 +390,11 @@ function stockUpdate(ids) {
                         var productPrice = $("#productPrice").val();
                         var productStockId = $("#productStockId").val();
                         var productDeliveryTime = $("#productDeliveryTime").val();
-                        var paymentId = $('#paymentId input:radio:checked').val();
+                        var paymentId = $('#paymentId input:checkbox:checked').val();
                         var proDealCount = $("#proDealCount").val();
                         var productState = $('#productState input:radio:checked').val();
                         var productImg = $("#productImg").val();
                         var typeId = $("#cityIds").val();
-                        alert(typeId);
                         $.ajax({
                             url:'../savePro',
                             type:'post',
@@ -416,11 +415,12 @@ function stockUpdate(ids) {
                                 bootbox.alert({
                                     size: "small",
                                     title: "提示",
-                                    message: "新增成功成功!",
+                                    message: "新增成功!",
                                     callback: function () {
-                                        $('#proTable').bootstrapTable('refresh');
                                     }
+
                                 })
+                                 $('#proTable').bootstrapTable('refresh');
 
                             }
                         });

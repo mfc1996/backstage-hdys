@@ -60,4 +60,8 @@
         update h_product set productStockId= productStockId - 1 where productId = #{value}
     </update>
 
+
+    <select id="queryLun" resultType="com.jk.model.LunBean">
+        select * from h_lun
+    </select>
 </mapper>

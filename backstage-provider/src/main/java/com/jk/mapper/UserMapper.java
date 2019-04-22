@@ -1,5 +1,6 @@
 package com.jk.mapper;
 
+import com.jk.model.LunBean;
 import com.jk.model.ProBean;
 import com.jk.model.TypeBean;
 import com.jk.model.User;
@@ -38,4 +39,6 @@ public interface UserMapper {
     void saveProType(@RequestParam("typeId") Integer typeId, @RequestParam("productId") int productId);
 
     void stockUpdate(Integer ids);
+
+    List<LunBean> queryLun();
 }

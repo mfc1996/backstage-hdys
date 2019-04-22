@@ -9,4 +9,3 @@ spring:
     name: server-feign
     thymeleaf.encoding: UTF-8
     thymeleaf.servlet.content-type: text/html
-

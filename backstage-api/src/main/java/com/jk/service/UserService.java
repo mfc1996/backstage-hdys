@@ -1,5 +1,7 @@
 package com.jk.service;
 
+import com.jk.model.ComBean;
+import com.jk.model.LunBean;
 import com.jk.model.ProBean;
 import com.jk.model.TypeBean;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,7 @@ public interface UserService {
 
     @GetMapping("queryUserList")
     @ResponseBody
-    HashMap<String, Object> queryList(@RequestParam("page") Integer page, @RequestParam("rows") Integer rows,@RequestBody ProBean proBean);
+    HashMap<String, Object> queryList(@RequestParam("page") Integer page, @RequestParam("rows") Integer rows, @RequestBody ProBean proBean);
 
     @GetMapping("queryProList")
     @ResponseBody
@@ -44,4 +46,15 @@ public interface UserService {
    @PutMapping("stockUp")
    @ResponseBody
    void stockUpdate(@RequestParam("ids") Integer ids);
+
+    @GetMapping("mongodList")
+    @ResponseBody
+    HashMap<String, Object> mongodList(@RequestParam("page") Integer page, @RequestParam("rows") Integer rows);
+
+    @PostMapping("saveMongod")
+    void saveMongod(ComBean comBean);
+
+    @GetMapping("lunlist")
+    @ResponseBody
+    List<LunBean> queryLun();
 }
