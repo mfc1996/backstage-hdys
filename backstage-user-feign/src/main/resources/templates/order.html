@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入jquery -->
+    <script src="/easyui/jquery.min.js"></script>
+    <!-- 引入bootstrop3 css,js-->
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+
+    <!-- 引入bootstrop-table css,js,中文-->
+    <link rel="stylesheet"  href="/bootstrap/bootstrap-table/bootstrap-table.css"></link>
+
+    <script type="text/javascript"    src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+
+    <script type="text/javascript" src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- 引入bootstrop-bootbox js,-->
+    <script type="text/javascript"  src="/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入bootstrap fileinput的css、js -->
+    <link type="text/css" rel="stylesheet"  href="/bootstrap/bootstrap-fileinput/css/fileinput.min.css">
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+
+    <script type="text/javascript"  src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+</head>
+<body>
+<div id="toolbar">
+    <form class="form-inline">
+        <div>
+            <shiro:hasPermission name="admin:delete">
+                <button type="button" class="btn btn-primary glyphicon glyphicon-minus" onclick="deleteManyUser()">批量删除</button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="admin:add">
+                <button type="button"
+                        class="btn btn-success glyphicon glyphicon-plus"
+                        onclick="">新增</button>
+            </shiro:hasPermission>
+
+
+        </div>
+    </form>
+</div>
+<input type="hidden" id="hidden1"/>
+<table class="table" id="orderTable"></table>
+</body>
+<script>
+    $(function(){
+        //初始化订单数据
+        initTable();
+    })
+
+    //搜索按钮  注意条件查询传到后台的参数要在初始化订单的时候传入
+    function searchUser(){
+        $("#orderTable").bootstrapTable("refresh");
+    }
+
+    //初始化订单数据
+    function initTable(){
+        $("#orderTable").bootstrapTable({
+            url:"../user/queryOrderList",//地址
+            pagination:true,//分页
+            pageSize:8,//默认分页条数
+            pageList:[2,5,8,10],//分页可选的展示条数
+            toolbar:$("#toolbar"),//工具融合
+            sidePagination:"server",
+            striped:true,//条纹显示
+            queryParams:function(){//bootstrap要自己传入分页
+                return{
+                    page:this.pageNumber,//当前页数
+                    rows:this.pageSize//分页条数
+                };
+            },
+            columns:[//对应的表单
+                {field:"checkbox",checkbox:true,align:'center',width:150},
+                {field:"orderId",title:"订单id",align:'center',width:150},// align:排列,width:宽度
+                {field:"orderName",title:"产品名称",align:'center',width:150},
+                {field:"orderImg",title:"订单图片",align:'center',width:150},
+                {field:"orderStatus",title:"订单状态",align:'center',width:150,formatter:function(value){
+                    return value==1?"待发货":value==2?"待收货":value==3?"已完成":"未知";
+
+                    }},
+                {field:"orderTime",title:"订单时间",align:'center',width:150},
+                {field:"orderPrice",title:"订单价格",align:'center',width:150},
+                {field:"oo",title:"操作",align:'center',width:150,formatter:function(value,row,index){
+                        return row.orderStatus==1?"<button type=\"button\" class=\"btn btn-primary glyphicon glyphicon-minus\" onclick=\"updateOrderStatus("+row.orderId+")\">发货</button>":"暂无";
+                    }}
+
+
+            ]
+        })
+    }
+    /**
+     * 删除订单
+     */
+    function deleteManyUser(){
+        var checkUsers=$("#orderTable").bootstrapTable("getSelections");
+        if(checkUsers.length==0){
+            alert("请选择要删除的角色");
+            return ;
+        }
+
+        var ids="";
+        for (var i=0;i<checkUsers.length;i++){
+            ids+=ids==""?checkUsers[i].orderId:","+checkUsers[i].orderId;
+        }
+        alert(ids);
+        $.ajax({
+            url:"../user/deleteManyOrder",
+            type:"get",
+            data:{ids:ids},
+            success:function(data){
+                if(data){
+                    alert("删除成功");
+                }
+                $("#userTable").bootstrapTable("refresh");
+            }
+        })
+
+    }
+
+    //修改订单的状态，由未发货到待收货
+    function updateOrderStatus (id) {
+        $.ajax({
+            url:"../user/updateOrderStatus",
+            type:"get",
+            data:{id:id},
+            success:function(data){
+                if(data){
+                    alert("成功");
+                    $("#orderTable").bootstrapTable("refresh");
+                }
+
+            }
+        })
+    }
+
+</script>
+
+
+</html>

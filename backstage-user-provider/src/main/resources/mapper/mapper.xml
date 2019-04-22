@@ -23,9 +23,10 @@ select id,text,url,pid from h_power where pid=#{value}
          c.roleId
        <where>
            <if test="user.userName!=null and user.userName!=''">
-                and userName  like  %#{user.userName}% or  userAccount like %#{user.userName}%
+                and userName   like  '%${user.userName}%' or userAccount like '%${user.userName}%'
            </if>
        </where>
+       limit #{start},#{rows }
      </select>
     <!--根据用户账号查找用户 -->
     <select id="queryUserByName" resultType="com.jk.model.User" parameterType="String">
@@ -79,8 +80,25 @@ DELETE FROM h_role_power WHERE roleId=#{value}
             (#{roleId},#{item})
         </foreach>
     </insert>
-
-
+     <!--查找产品数量-->
+      <select id="getOrderCount" parameterType="map"  resultType="Integer">
+          select  count(*) from h_order
+      </select>
+    <!--查询产品 可分页条查-->
+    <select id="queryOrderList" parameterType="map" resultType="com.jk.model.OrderBean">
+        select * from h_order limit #{start},#{rows}
+    </select>
+    <!--修改订单的状态-->
+     <update id="updateOrderStatus" parameterType="String" >
+        update h_order set orderStatus=2 where orderId=#{value}
+     </update>
+    <delete id="deleteManyOrder" parameterType="int">
+        delete from h_order  where orderId in
+        <foreach collection="array" close=")" index="index"  item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    
 
 
 </mapper>

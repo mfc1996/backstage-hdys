@@ -1,5 +1,6 @@
 package com.jk.controller;
 
+import com.jk.model.OrderBean;
 import com.jk.model.PowerBean;
 import com.jk.model.User;
 import com.jk.service.UserService;
@@ -134,6 +135,35 @@ public class UserController {
 
         return list;
     }
+    //查询订单，默认是发货状态
+    @GetMapping("queryOrderList")
+    @ResponseBody
+    public  HashMap<String, Object> queryOrderList(Integer page, Integer rows, OrderBean order){
+        return  userService.queryOrderList(page,rows,order);
+    }
+    @GetMapping("deleteManyOrder")
+    public Boolean deleteManyOrder(String[] ids){
+        try {
+            userService.deleteManyOrder(ids);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+
+        }
+    }
+    @GetMapping("updateOrderStatus")
+    public Boolean updateOrderStatus(String id){
+        try {
+            userService.updateOrderStatus(id);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+
+        }
+    }
+
 
 
 }

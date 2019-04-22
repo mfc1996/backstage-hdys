@@ -3,12 +3,36 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
+    <!-- 引入jquery -->
+    <script src="/easyui/jquery.min.js"></script>
 </head>
-<form  action="./login" method="post">
-    用户名：<input type="text" name="username" /><br/>
-    密码：<input type="text" name="password" /><br/>
+<body>
+<a  href="http://192.168.0.129:8090/page/toMain"> 去主页面</a>
+<form  action="./page/login" method="post" id="formId">
+    用户名：<input type="text" name="username"  th:value="${username}" id="usernameID"/><br/>
+    密码：<input type="text" name="password"  th:value="${password}" id="passwordId"/><br/>
     <input type="submit"  value="提交"/>
     <div th:text="${message}"></div>
+    <input type="text" th:value="${message}" id="hiddenID"/>
 </form>
 </body>
+<script>
+    $(function(){
+        var a=$("#usernameID").val();
+        var b=$("#passwordId").val();
+        var c=$("#hiddenID").val();
+        if($("#usernameID").val()!=null &&$("#usernameID").val()!=""){
+            if(c==null||c==""){
+                $("#formId").submit();
+
+            }else{
+                location.href="http://192.168.0.122:8091/page/toLogin";
+            }
+
+
+        }else{
+            location.href="http://192.168.0.122:8091/page/toLogin";
+        }
+    })
+</script>
 </html>

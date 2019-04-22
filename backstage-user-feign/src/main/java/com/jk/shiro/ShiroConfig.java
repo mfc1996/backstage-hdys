@@ -21,6 +21,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -48,7 +49,7 @@ public class ShiroConfig {
      *
      * */
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         System.out.println("ShiroConfiguration.shirFilter()");
         // shiro过滤器工厂
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -62,9 +63,10 @@ public class ShiroConfig {
         // 所有的css文件走  anon过滤器 此过滤器代表放过拦截 不需要权限也能访问 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/css/**", "anon");
         // 放过登录页面拦截
-        filterChainDefinitionMap.put("/toLogin", "anon");
+        filterChainDefinitionMap.put("/page/toLogin", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/page/login", "anon");
         /// **代表所有路径 除以上路径外都拦截 authc代表权限拦截过滤器 <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/**", "authc");
         // perms权限过滤器 必须拥有某项权限才能访问对应路径
@@ -72,7 +74,8 @@ public class ShiroConfig {
         // 登录请求路径 登录页面提交form表单时 表单的action写此路径
         shiroFilterFactoryBean.setLoginUrl("/page/login");
         // 登录成功跳转到登录成功页面
-        shiroFilterFactoryBean.setSuccessUrl("/fjakfiahdsiohisagfhdsiafioasdg");
+
+        shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权界面;
          //shiroFilterFactoryBean.setUnauthorizedUrl("/403.html");
            shiroFilterFactoryBean.setUnauthorizedUrl("/403");

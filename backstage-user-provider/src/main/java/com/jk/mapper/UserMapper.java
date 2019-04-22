@@ -34,4 +34,12 @@ public interface UserMapper {
     void deleteRolePower(Integer roleId);
 
     void addRolePowers(@RequestParam("roleId") Integer roleId, @RequestParam("powerIds") Integer[] powerIds);
+    //查询订单数量
+    Integer getOrderCount(HashMap<String, Object> map);
+    //查询订单
+    List<User> queryOrderList(HashMap<String, Object> map);
+    //修改订单的状态
+    void updateOrderStatus(String id);
+    //批量删除订单
+    void deleteManyOrder(String[] ids);
 }

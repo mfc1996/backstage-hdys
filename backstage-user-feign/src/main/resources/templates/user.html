@@ -36,21 +36,16 @@
 <div id="toolbar">
     <form class="form-inline">
         <div class="form-group">
-            <label for="username">用户名</label> <input class="form-control"id="username" placeholder="请输入用户名">
+            <label for="username">用户名</label> <input class="form-control"id="username" placeholder="请输入用户名或账号">
         </div>
         <div>
             <button   type="button" class="btn btn-primary glyphicon glyphicon-zoom-in"onclick="searchUser()">搜索</button>
             <!--shiro隐藏-->
-            <shiro:hasPermission name="admin:create">
-            <button type="button"  shiro:hasPermission=""
+            <shiro:hasPermission name="admin:delete">
+            <button type="button"
                     class="btn btn-primary glyphicon glyphicon-minus"
                     onclick="deleteManyUser()">批量删除</button>
             </shiro:hasPermission>
-            <button type="button"
-                    class="btn btn-success glyphicon glyphicon-plus"
-                    onclick="">新增</button>
-
-
         </div>
     </form>
 </div>
@@ -72,7 +67,7 @@
         $("#userTable").bootstrapTable({
             url:"../user/queryUserList",//地址
             pagination:true,//分页
-            pageSize:2,//默认分页条数
+            pageSize:10,//默认分页条数
             pageList:[2,5,10],//分页可选的展示条数
             toolbar:$("#toolbar"),//工具融合
             sidePagination:"server",
@@ -80,7 +75,8 @@
             queryParams:function(){//bootstrap要自己传入分页
                 return{
                     page:this.pageNumber,//当前页数
-                    rows:this.pageSize//分页条数
+                    rows:this.pageSize,//分页条数
+                    userName:$("#username").val()
                 };
             },
             columns:[//对应的表单

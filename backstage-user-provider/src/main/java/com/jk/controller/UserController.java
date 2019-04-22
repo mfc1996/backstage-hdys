@@ -1,5 +1,6 @@
 package com.jk.controller;
 
+import com.jk.model.OrderBean;
 import com.jk.model.PowerBean;
 import com.jk.model.RoleBean;
 import com.jk.model.User;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController implements UserServiceApi {
@@ -166,6 +168,40 @@ public class UserController implements UserServiceApi {
         userMapper.addRolePowers(roleId,powerIds);
 
 
+    }
+
+    @Override
+    public HashMap<String, Object> queryOrderList(Integer page, Integer rows,  @RequestBody OrderBean order) {
+        System.out.println("77========================================================================");
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("user",order);
+        //查询用户的数量
+        Integer userCount=userMapper.getOrderCount(map);
+        System.out.println(userCount);
+        //计算开始条数
+        Integer start=(page-1)*rows;
+        map.put("start",start);
+        //放入每页条数
+        map.put("rows",rows);
+        List< User> list=userMapper.queryOrderList(map);
+        System.out.println(list);
+        //将数据放到map中返回
+        map.put("total",userCount);
+        map.put("rows",list);
+
+        return  map;
+    }
+   //删除订单
+    @Override
+    public void deleteManyOrder(String[] ids) {
+        userMapper.deleteManyOrder(ids);
+
+    }
+    //修改订单的状态 由未发货到待收货
+    @Override
+    public void updateOrderStatus(String id) {
+
+       userMapper.updateOrderStatus(id);
     }
 
 

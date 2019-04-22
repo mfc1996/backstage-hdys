@@ -1,5 +1,6 @@
 package com.jk.service;
 
+import com.jk.model.OrderBean;
 import com.jk.model.PowerBean;
 import com.jk.model.User;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +43,11 @@ public interface UserServiceApi {
     @PutMapping("updateRolePowerByRoleIdAndPowerIds")
     void updateRolePowerByRoleIdAndPowerIds(@RequestParam("powerIds")Integer[] powerIds,@RequestParam("roleId") Integer roleId);
 
-
+    //查询订单
+    @PostMapping("queryOrderList")
+    HashMap<String ,Object> queryOrderList(@RequestParam("page")Integer page, @RequestParam("rows")Integer rows,@RequestBody OrderBean order);
+     @GetMapping("deleteManyOrder")
+    void deleteManyOrder(@RequestParam("ids")String[] ids);
+    @GetMapping("updateOrderStatus")
+    void updateOrderStatus(@RequestParam("id")String id);
 }

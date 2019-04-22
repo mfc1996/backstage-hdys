@@ -1,5 +1,6 @@
 package com.jk.controller;
 
+import com.jk.utils.Md5Util;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -13,21 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("page")
 public class PageController {
+    //跳转到主页面
     @RequestMapping("toMain")
     public String toMain(){
       return "main";
     }
-
+    //去用户界面
     @RequestMapping("toUser")
     @RequiresPermissions("admin:query")
     public String toUser(){
       return "user";
     }
+    //去角色管理
     @RequiresPermissions("admin:query")
     @RequestMapping("toRole")
     public String toRole(){
       return "role";
     }
+    //没有权限跳转的页面
     @RequestMapping("notPower")
     public String notPower(){
       return "notPower";
@@ -59,4 +63,21 @@ public class PageController {
         //访问其他页面时 只要不是登录成功状态 都会跳转到登录页面
         return "login";
     }
+    //跳到订单管理
+    @RequestMapping("toOrder")
+    public String toOrder(){
+        return "order";
+    }
+    //跳转到login页面
+    @RequestMapping("toLogin")
+    public String toLogin(String username,String password, Model model){
+        System.out.println(username);
+        System.out.println(password);
+        String md5 = Md5Util.getMd516(password);
+        model.addAttribute("username",username);
+
+        model.addAttribute("password",md5);
+       return "login";
+    }
+
 }
